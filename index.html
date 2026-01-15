@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LB Music</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --panel: #111;
+      --text: #eaeaea;
+      --muted: #8a8a8a;
+      --accent: #ffffff;
+      --border: rgba(255,255,255,0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 40px 60px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    header h1 {
+      font-size: 22px;
+      letter-spacing: 1px;
+    }
+
+    header span {
+      color: var(--muted);
+      font-size: 13px;
+      display: block;
+      margin-top: 6px;
+    }
+
+    main {
+      padding: 80px 60px;
+      max-width: 1100px;
+    }
+
+    .hero {
+      margin-bottom: 120px;
+    }
+
+    .hero h2 {
+      font-size: 42px;
+      font-weight: 500;
+      max-width: 700px;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin-top: 20px;
+      color: var(--muted);
+      max-width: 500px;
+      font-size: 15px;
+    }
+
+    .section {
+      margin-bottom: 100px;
+    }
+
+    .section h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 24px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .client {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid var(--border);
+      padding: 30px;
+      background: var(--panel);
+    }
+
+    .client h4 {
+      font-size: 20px;
+    }
+
+    .client span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    footer {
+      padding: 40px 60px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+      header, main, footer {
+        padding: 30px;
+      }
+
+      .hero h2 {
+        font-size: 30px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>LB Music</h1>
+    <span>Independent Music Agency</span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>Focused music representation, release strategy, and creative direction.</h2>
+      <p>
+        LB Music is a solo-run agency working closely with independent artists
+        to build long-term sound, structure, and presence — without industry noise.
+      </p>
+    </section>
+
+    <section class="section">
+      <h3>SERVICES</h3>
+      <div class="services">
+        <div class="card">
+          <p>Artist branding & identity development</p>
+        </div>
+        <div class="card">
+          <p>Release planning & distribution setup</p>
+        </div>
+        <div class="card">
+          <p>Creative direction & sound positioning</p>
+        </div>
+        <div class="card">
+          <p>Independent artist consulting</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>CLIENT</h3>
+      <div class="client">
+        <h4>Lurkz Beats</h4>
+        <span>Producer / Beat Artist</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 LB Music — Independent Operator
+  </footer>
+
+</body>
+</html>
