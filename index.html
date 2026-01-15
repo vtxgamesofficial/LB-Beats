@@ -1,184 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>LB Music</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>LB Music</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    :root {
-      --bg: #0a0a0a;
-      --panel: #111;
-      --text: #eaeaea;
-      --muted: #8a8a8a;
-      --accent: #ffffff;
-      --border: rgba(255,255,255,0.08);
-    }
+<style>
+:root {
+  --bg: #050505;
+  --bg-soft: #0b0b0b;
+  --panel: rgba(255,255,255,0.02);
+  --border: rgba(255,255,255,0.08);
+  --text: #f2f2f2;
+  --muted: #8f8f8f;
+  --accent: #ffffff;
+  --glow: rgba(255,255,255,0.04);
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
+html, body {
+  background: radial-gradient(circle at top, #0c0c0c, #040404 60%);
+  color: var(--text);
+  min-height: 100%;
+}
 
-    header {
-      padding: 40px 60px;
-      border-bottom: 1px solid var(--border);
-    }
+/* ───────── NAV ───────── */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 26px 60px;
+  backdrop-filter: blur(16px);
+  background: rgba(5,5,5,0.65);
+  border-bottom: 1px solid var(--border);
+  z-index: 10;
+}
 
-    header h1 {
-      font-size: 22px;
-      letter-spacing: 1px;
-    }
+nav h1 {
+  font-size: 16px;
+  letter-spacing: 2px;
+  font-weight: 500;
+}
 
-    header span {
-      color: var(--muted);
-      font-size: 13px;
-      display: block;
-      margin-top: 6px;
-    }
+/* ───────── HERO ───────── */
+.hero {
+  padding: 180px 60px 140px;
+  max-width: 1200px;
+}
 
-    main {
-      padding: 80px 60px;
-      max-width: 1100px;
-    }
+.hero span {
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 2px;
+}
 
-    .hero {
-      margin-bottom: 120px;
-    }
+.hero h2 {
+  margin-top: 18px;
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 1.15;
+  max-width: 900px;
+}
 
-    .hero h2 {
-      font-size: 42px;
-      font-weight: 500;
-      max-width: 700px;
-      line-height: 1.2;
-    }
+.hero p {
+  margin-top: 28px;
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 520px;
+}
 
-    .hero p {
-      margin-top: 20px;
-      color: var(--muted);
-      max-width: 500px;
-      font-size: 15px;
-    }
+/* ───────── SECTION BASE ───────── */
+section {
+  padding: 140px 60px;
+  max-width: 1200px;
+}
 
-    .section {
-      margin-bottom: 100px;
-    }
+.section-title {
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  margin-bottom: 40px;
+}
 
-    .section h3 {
-      font-size: 18px;
-      margin-bottom: 20px;
-      letter-spacing: 1px;
-    }
+/* ───────── SERVICES ───────── */
+.services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+}
 
-    .services {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
+.service {
+  padding: 36px;
+  background: linear-gradient(180deg, var(--panel), transparent);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
 
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      padding: 24px;
-    }
+.service::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent, var(--glow), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
 
-    .card p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
+.service:hover::after {
+  opacity: 1;
+}
 
-    .client {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border: 1px solid var(--border);
-      padding: 30px;
-      background: var(--panel);
-    }
+.service h3 {
+  font-size: 18px;
+  font-weight: 500;
+}
 
-    .client h4 {
-      font-size: 20px;
-    }
+.service p {
+  margin-top: 14px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
 
-    .client span {
-      color: var(--muted);
-      font-size: 14px;
-    }
+/* ───────── CLIENT ───────── */
+.client-card {
+  padding: 48px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--bg-soft), transparent);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    footer {
-      padding: 40px 60px;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 13px;
-    }
+.client-card h4 {
+  font-size: 28px;
+  font-weight: 500;
+}
 
-    @media (max-width: 700px) {
-      header, main, footer {
-        padding: 30px;
-      }
+.client-card span {
+  color: var(--muted);
+  font-size: 14px;
+}
 
-      .hero h2 {
-        font-size: 30px;
-      }
-    }
-  </style>
+/* ───────── FOOTER ───────── */
+footer {
+  padding: 80px 60px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ───────── RESPONSIVE ───────── */
+@media (max-width: 800px) {
+  nav, .hero, section, footer {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .hero h2 {
+    font-size: 38px;
+  }
+
+  .client-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <h1>LB Music</h1>
-    <span>Independent Music Agency</span>
-  </header>
+<nav>
+  <h1>LB MUSIC</h1>
+</nav>
 
-  <main>
-    <section class="hero">
-      <h2>Focused music representation, release strategy, and creative direction.</h2>
+<div class="hero">
+  <span>INDEPENDENT MUSIC AGENCY</span>
+  <h2>
+    High-precision music strategy,
+    creative direction,
+    and artist positioning.
+  </h2>
+  <p>
+    LB Music operates with a singular focus — building artists with clarity,
+    restraint, and long-term intent. No excess. No noise.
+  </p>
+</div>
+
+<section>
+  <div class="section-title">SERVICES</div>
+
+  <div class="services">
+    <div class="service">
+      <h3>Artist Identity</h3>
       <p>
-        LB Music is a solo-run agency working closely with independent artists
-        to build long-term sound, structure, and presence — without industry noise.
+        Defining sound, visual language, and positioning
+        to create a cohesive and recognisable presence.
       </p>
-    </section>
+    </div>
 
-    <section class="section">
-      <h3>SERVICES</h3>
-      <div class="services">
-        <div class="card">
-          <p>Artist branding & identity development</p>
-        </div>
-        <div class="card">
-          <p>Release planning & distribution setup</p>
-        </div>
-        <div class="card">
-          <p>Creative direction & sound positioning</p>
-        </div>
-        <div class="card">
-          <p>Independent artist consulting</p>
-        </div>
-      </div>
-    </section>
+    <div class="service">
+      <h3>Release Strategy</h3>
+      <p>
+        Structured rollouts, distribution setup,
+        and audience-first planning.
+      </p>
+    </div>
 
-    <section class="section">
-      <h3>CLIENT</h3>
-      <div class="client">
-        <h4>Lurkz Beats</h4>
-        <span>Producer / Beat Artist</span>
-      </div>
-    </section>
-  </main>
+    <div class="service">
+      <h3>Creative Direction</h3>
+      <p>
+        Guidance on sound evolution,
+        visuals, and long-term artistic trajectory.
+      </p>
+    </div>
 
-  <footer>
-    © 2026 LB Music — Independent Operator
-  </footer>
+    <div class="service">
+      <h3>Independent Consulting</h3>
+      <p>
+        Strategic advice for artists navigating
+        releases without label dependency.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-title">CLIENT</div>
+
+  <div class="client-card">
+    <h4>Lurkz Beats</h4>
+    <span>Producer / Beat Artist</span>
+  </div>
+</section>
+
+<footer>
+  © 2026 LB Music — Independent Operator
+</footer>
 
 </body>
 </html>
