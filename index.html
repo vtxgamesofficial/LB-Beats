@@ -3,272 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LB Music</title>
+    <title>LB MUSIC</title>
     <style>
         :root {
-            --bg-color: #0A0A0A;
-            --surface: #111111;
-            --text-main: #E5E5E5;
-            --text-dim: #888888;
-            --border: #222222;
-            --accent: #FFFFFF;
+            --bg: #000000;
+            --text: #FFFFFF;
+            --dim: #666666;
+            --border: #1a1a1a;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            text-transform: uppercase;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            letter-spacing: -0.04em;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 1. Top Bar */
+        /* Nav - Pure Minimalist */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            height: 70px;
+            padding: 50px 60px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 0 50px;
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
-            z-index: 1000;
+            z-index: 100;
         }
 
-        .wordmark {
-            font-weight: 800;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-size: 1.2rem;
+        .logo {
+            font-weight: 900;
+            font-size: 28px;
         }
 
-        .nav-link {
+        .contact-trigger {
+            font-size: 12px;
             text-decoration: none;
-            color: var(--text-main);
-            font-size: 0.9rem;
-            opacity: 0.7;
-            transition: opacity 0.3s;
+            color: var(--text);
+            font-weight: 700;
         }
 
-        .nav-link:hover {
-            opacity: 1;
-        }
-
-        /* 2. Hero Section */
-        .hero {
+        /* Hero - Massive Presence */
+        section.hero {
             height: 100vh;
+            padding: 0 60px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 0 10%;
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAElBMVEUAAAD8/Pz09PT4+Pj29vb////9F97fAAAABXRSTlMAMzMzM97m7vIAAAAnSURBVDjLY2AYBaNgFIyCUUAGAQMDE5BcByMDI5CcByMDI5A8ByMAD9IBA8Xsq7sAAAAASUVORK5CYII='); /* Subtle Noise */
-        }
-
-        .hero span {
-            font-size: 0.75rem;
-            letter-spacing: 4px;
-            color: var(--text-dim);
-            margin-bottom: 20px;
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            font-weight: 700;
-            line-height: 1.1;
-            max-width: 900px;
-            margin-bottom: 30px;
+            font-size: clamp(80px, 18vw, 300px);
+            line-height: 0.75;
+            font-weight: 900;
+            margin-left: -10px; /* Optical alignment */
         }
 
         .hero p {
-            font-size: 1.1rem;
-            color: var(--text-dim);
-            max-width: 500px;
+            margin-top: 40px;
+            font-size: 18px;
+            max-width: 600px;
+            letter-spacing: 0;
+            color: var(--dim);
+            text-transform: none;
         }
 
-        /* 3. Philosophy Block */
-        .philosophy {
-            padding: 150px 10%;
-            text-align: center;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .philosophy blockquote {
-            font-size: 1.8rem;
-            max-width: 800px;
-            margin: 0 auto;
-            font-weight: 500;
-        }
-
-        /* 4. Services Grid */
-        .services {
+        /* Grid - Content only */
+        .grid-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            border-bottom: 1px solid var(--border);
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid var(--text);
         }
 
-        .service-card {
-            padding: 80px 10%;
+        .grid-item {
+            padding: 120px 60px;
             border-right: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
-            transition: background 0.4s;
         }
 
-        .service-card:hover {
-            background: #0F0F0F;
+        .grid-item:last-of-type {
+            border-right: none;
         }
 
-        .service-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+        .grid-item h2 {
+            font-size: 40px;
+            font-weight: 900;
+            line-height: 0.9;
+            margin-bottom: 20px;
         }
 
-        .service-card p {
-            color: var(--text-dim);
+        .grid-item p {
+            font-size: 14px;
+            color: var(--dim);
+            letter-spacing: 0;
+            text-transform: none;
+            line-height: 1.5;
         }
 
-        /* 5. Client Section */
-        .client-focus {
-            padding: 150px 10%;
-            background: var(--surface);
+        /* Client Spotlight */
+        .featured-client {
+            grid-column: span 3;
+            padding: 200px 60px;
+            background: #ffffff;
+            color: #000000;
         }
 
-        .client-card {
-            border: 1px solid var(--border);
-            padding: 60px;
-            text-align: left;
+        .featured-client h3 {
+            font-size: clamp(60px, 15vw, 250px);
+            font-weight: 900;
+            line-height: 0.8;
+            letter-spacing: -0.06em;
         }
 
-        .client-card h2 {
-            font-size: 3rem;
-            margin-bottom: 10px;
+        .featured-client p {
+            font-size: 24px;
+            font-weight: 500;
+            margin-top: 30px;
+            text-transform: none;
         }
 
-        .client-card p {
-            color: var(--text-dim);
-            letter-spacing: 1px;
+        /* Contact Section */
+        .dispatch {
+            padding: 300px 60px;
         }
 
-        /* 8. Footer */
-        footer {
-            padding: 50px 10%;
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--text-dim);
-            border-top: 1px solid var(--border);
-        }
-
-        .contact-section {
-            padding: 150px 10%;
-            text-align: center;
-        }
-
-        .contact-email {
-            font-size: 2.5rem;
+        .dispatch a {
+            font-size: clamp(30px, 8vw, 120px);
+            color: var(--text);
             text-decoration: none;
-            color: var(--accent);
-            font-weight: 700;
-            display: block;
-            margin-top: 20px;
+            font-weight: 900;
+            display: inline-block;
+            line-height: 0.8;
         }
 
-        /* Hidden Administrative Interface (Back-end logic access) */
-        .admin-ledger {
-            display: none; /* Only visible to you via console or auth */
-            background: #000;
-            padding: 40px;
-            font-family: monospace;
-            border: 1px solid red;
+        /* Footer */
+        footer {
+            padding: 80px 60px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 1000px) {
+            .grid-container { grid-template-columns: 1fr; }
+            .grid-item { border-right: none; }
+            .hero h1 { font-size: 100px; }
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="wordmark">LB Music</div>
-        <a href="mailto:LBmusic@vtxgames.co.uk" class="nav-link">Contact</a>
+        <div class="logo">LB MUSIC</div>
+        <a href="mailto:LBmusic@vtxgames.co.uk" class="contact-trigger">CONTACT</a>
     </nav>
 
     <section class="hero">
-        <span>INDEPENDENT MUSIC AGENCY</span>
-        <h1>Precision in sound, strategy, and creative direction.</h1>
-        <p>Building sustainable artistic foundations through structural integrity and verified audience growth.</p>
+        <h1>SOUND<br>STRUCTURE</h1>
+        <p>Independent agency focused on the precision of sound, strategy, and creative direction.</p>
     </section>
 
-    <section class="philosophy">
-        <blockquote>Built for artists who value control, clarity, and long-term vision.</blockquote>
-    </section>
+    <div class="grid-container">
+        <div class="grid-item">
+            <h2>ARTIST<br>IDENTITY</h2>
+            <p>Defining the core visual and sonic profile for long-term recognition.</p>
+        </div>
+        <div class="grid-item">
+            <h2>RELEASE<br>STRATEGY</h2>
+            <p>Architecting the digital and physical framework for independent releases.</p>
+        </div>
+        <div class="grid-item">
+            <h2>CREATIVE<br>DIRECTION</h2>
+            <p>Full-spectrum oversight of artistic assets and visual language.</p>
+        </div>
 
-    <section class="services">
-        <div class="service-card">
-            <h3>Artist Identity</h3>
-            <p>Defining the visual and sonic core for long-term recognition.</p>
-        </div>
-        <div class="service-card">
-            <h3>Release Strategy</h3>
-            <p>Architecting global distribution frameworks for maximum impact.</p>
-        </div>
-        <div class="service-card">
-            <h3>Creative Direction</h3>
-            <p>Overseeing the visual language across all digital and physical assets.</p>
-        </div>
-        <div class="service-card" style="border-right: none;">
-            <h3>Independent Consulting</h3>
-            <p>Strategic advisory for artists navigating the self-governed landscape.</p>
-        </div>
-    </section>
+        <section class="featured-client">
+            <h3>LURKZ BEATS</h3>
+            <p>Producer / Artist</p>
+        </section>
+    </div>
 
-    <section class="client-focus">
-        <div class="client-card">
-            <h2>Lurkz Beats</h2>
-            <p>PRODUCER / BEAT ARTIST</p>
-            <br>
-            <p style="max-width: 400px;">Establishing the structural framework for a new era of production and digital rights management.</p>
-        </div>
-    </section>
-
-    <section class="contact-section">
-        <span>WORK INQUIRIES</span>
-        <a href="mailto:LBmusic@vtxgames.co.uk" class="contact-email">LBmusic@vtxgames.co.uk</a>
+    <section class="dispatch">
+        <a href="mailto:LBmusic@vtxgames.co.uk">INQUIRIES —<br>LBMUSIC@VTXGAMES.CO.UK</a>
     </section>
 
     <footer>
-        <p>© 2026 LB MUSIC — INDEPENDENT Agency</p>
+        <div>LB MUSIC</div>
+        <div>BRICK BY BRICK — 2026</div>
     </footer>
 
-    <script>
-        const AgencySystem = {
-            capturedBots: 0,
-            verifiedHumans: 0,
-            integratedSites: [],
-            emailList: new Set(),
-
-            logInterception: function(site) {
-                this.capturedBots++;
-                console.log(`[SECURITY] Bot neutralized on ${site}. Total: ${this.capturedBots}`);
-            },
-
-            addEmail: function(email) {
-                if(!this.emailList.has(email)) {
-                    this.emailList.add(email);
-                    return true;
-                }
-                return false; // Email already exists, no duplication
-            },
-
-            globalDispatch: function(message) {
-                console.log(`Broadcasting to ${this.emailList.size} verified contacts.`);
-            }
-        };
-    </script>
 </body>
 </html>
