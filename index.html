@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LB MUSIC</title>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
     <style>
         :root {
             --bg: #000000;
             --text: #FFFFFF;
-            --dim: #555555;
-            --border: #1a1a1a;
+            --dim: #444444;
+            --border: #111111;
         }
 
         * {
@@ -27,22 +28,13 @@
         body {
             background-color: var(--bg);
             color: var(--text);
-            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-            letter-spacing: -0.05em;
+            font-family: 'Inter', 'Helvetica', sans-serif;
+            letter-spacing: -0.06em;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Architectural Grain Overlay */
-        .grain {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://grainy-gradients.vercel.app/noise.svg');
-            opacity: 0.05;
-            pointer-events: none;
-            z-index: 9999;
-        }
-
+        /* 1. Static Layout Components */
         nav {
             position: fixed;
             top: 0; width: 100%;
@@ -53,7 +45,7 @@
             mix-blend-mode: difference;
         }
 
-        .logo { font-weight: 900; font-size: 24px; }
+        .logo { font-weight: 900; font-size: 32px; letter-spacing: -2px; }
 
         .hero {
             height: 100vh;
@@ -61,13 +53,14 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding-bottom: 100px;
+            padding-bottom: 80px;
         }
 
         .hero h1 {
-            font-size: clamp(80px, 16vw, 280px);
-            line-height: 0.78;
+            font-size: clamp(80px, 18vw, 320px);
+            line-height: 0.75;
             font-weight: 900;
+            visibility: hidden; /* Prevent flash before GSAP */
         }
 
         .grid-container {
@@ -77,51 +70,56 @@
         }
 
         .grid-item {
-            padding: 100px 60px;
+            padding: 140px 60px;
             border-right: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
         }
 
         .grid-item h2 {
-            font-size: 42px;
+            font-size: 48px;
             font-weight: 900;
-            margin-bottom: 20px;
-            line-height: 0.9;
+            margin-bottom: 24px;
+            line-height: 0.85;
         }
 
         .grid-item p {
-            font-size: 14px;
+            font-size: 13px;
             text-transform: none;
             color: var(--dim);
-            max-width: 280px;
+            max-width: 250px;
+            letter-spacing: 0;
         }
 
         .featured-client {
             grid-column: span 3;
-            padding: 200px 60px;
+            padding: 250px 60px;
             background: #FFFFFF;
             color: #000000;
+            text-align: left;
         }
 
         .featured-client h3 {
-            font-size: clamp(60px, 15vw, 250px);
+            font-size: clamp(80px, 16vw, 300px);
             font-weight: 900;
-            line-height: 0.8;
-            letter-spacing: -0.06em;
+            line-height: 0.75;
+            letter-spacing: -0.07em;
         }
 
         .dispatch {
-            padding: 250px 60px;
+            padding: 300px 60px;
         }
 
         .dispatch a {
-            font-size: clamp(40px, 8vw, 120px);
+            font-size: clamp(40px, 8vw, 140px);
             color: var(--text);
             text-decoration: none;
             font-weight: 900;
             line-height: 0.8;
             display: inline-block;
+            transition: opacity 0.3s;
         }
+
+        .dispatch a:hover { opacity: 0.4; }
 
         footer {
             padding: 60px;
@@ -132,95 +130,95 @@
             color: var(--dim);
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1000px) {
             .grid-container { grid-template-columns: 1fr; }
             .grid-item { border-right: none; }
         }
     </style>
 </head>
 <body>
-    <div class="grain"></div>
+
     <div id="root"></div>
 
     <script type="text/babel">
-        const { motion } = FramerMotion;
+        const { useEffect } = React;
 
         function App() {
+            useEffect(() => {
+                // GSAP Animations - Brick by Brick locking
+                gsap.registerPlugin(ScrollTrigger);
+
+                // Hero reveal
+                gsap.to(".hero h1", {
+                    visibility: "visible",
+                    y: 0,
+                    opacity: 1,
+                    duration: 1.5,
+                    ease: "expo.out"
+                });
+
+                // Grid reveal
+                gsap.from(".grid-item", {
+                    scrollTrigger: ".grid-container",
+                    y: 100,
+                    opacity: 0,
+                    duration: 1,
+                    stagger: 0.2,
+                    ease: "power4.out"
+                });
+
+                // Client reveal
+                gsap.from(".featured-client h3", {
+                    scrollTrigger: ".featured-client",
+                    x: -100,
+                    opacity: 0,
+                    duration: 1.2,
+                    ease: "expo.out"
+                });
+            }, []);
+
             return (
                 <div className="lb-app">
-                    <motion.nav 
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                    >
+                    <nav>
                         <div className="logo">LB MUSIC</div>
-                        <div style={{fontSize: '11px', fontWeight: '900'}}>EST. 2026</div>
-                    </motion.nav>
+                        <div style={{fontWeight: '900'}}>2026</div>
+                    </nav>
 
                     <section className="hero">
-                        <motion.h1
-                            initial={{ opacity: 0, x: -50 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                        >
-                            SOUND<br/>STRUCTURE
-                        </motion.h1>
+                        <h1 id="hero-title">SOUND<br/>STRUCTURE</h1>
                     </section>
 
                     <div className="grid-container">
-                        <motion.div className="grid-item" 
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.1 }}
-                        >
+                        <div className="grid-item">
                             <h2>ARTIST<br/>IDENTITY</h2>
-                            <p>Defining the core visual and sonic profile for long-term recognition.</p>
-                        </motion.div>
+                            <p>Defining the visual and sonic core for long-term recognition.</p>
+                        </div>
 
-                        <motion.div className="grid-item"
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.2 }}
-                        >
+                        <div className="grid-item">
                             <h2>RELEASE<br/>STRATEGY</h2>
                             <p>Architecting the digital and physical framework for independent releases.</p>
-                        </motion.div>
+                        </div>
 
-                        <motion.div className="grid-item"
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.3 }}
-                        >
+                        <div className="grid-item">
                             <h2>CREATIVE<br/>DIRECTION</h2>
                             <p>Full-spectrum oversight of artistic assets and visual language.</p>
-                        </motion.div>
+                        </div>
 
-                        <motion.section className="featured-client"
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            transition={{ duration: 1.5 }}
-                            viewport={{ once: true }}
-                        >
+                        <section className="featured-client">
                             <h3>LURKZ BEATS</h3>
-                            <p style={{color: '#000', fontSize: '20px', textTransform: 'none', marginTop: '20px'}}>Producer / Artist</p>
-                        </motion.section>
+                            <p style={{color: '#000', fontSize: '24px', fontWeight: '900', marginTop: '20px'}}>STRATEGIC PARTNER</p>
+                        </section>
                     </div>
 
                     <section className="dispatch">
-                        <motion.a 
-                            href="mailto:LBmusic@vtxgames.co.uk"
-                            whileHover={{ scale: 1.02, x: 10 }}
-                        >
+                        <a href="mailto:LBmusic@vtxgames.co.uk">
                             INQUIRIES —<br/>LBmusic@vtxgames.co.uk
-                        </motion.a>
+                        </a>
                     </section>
 
                     <footer>
                         <div>© LB MUSIC</div>
-                        <div>BRICK BY BRICK</div>
+                        <div>BUILT BRICK BY BRICK</div>
                     </footer>
                 </div>
             );
