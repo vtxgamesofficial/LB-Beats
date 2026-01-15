@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LB MUSIC</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    
     <style>
         :root {
             --bg: #000000;
             --text: #FFFFFF;
-            --dim: #666666;
+            --dim: #555555;
             --border: #1a1a1a;
         }
 
@@ -22,60 +27,49 @@
         body {
             background-color: var(--bg);
             color: var(--text);
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            letter-spacing: -0.04em;
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            letter-spacing: -0.05em;
+            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Nav - Pure Minimalist */
+        /* Architectural Grain Overlay */
+        .grain {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
         nav {
             position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 50px 60px;
+            top: 0; width: 100%;
+            padding: 40px 60px;
             display: flex;
             justify-content: space-between;
             z-index: 100;
+            mix-blend-mode: difference;
         }
 
-        .logo {
-            font-weight: 900;
-            font-size: 28px;
-        }
+        .logo { font-weight: 900; font-size: 24px; }
 
-        .contact-trigger {
-            font-size: 12px;
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 700;
-        }
-
-        /* Hero - Massive Presence */
-        section.hero {
+        .hero {
             height: 100vh;
             padding: 0 60px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-end;
+            padding-bottom: 100px;
         }
 
         .hero h1 {
-            font-size: clamp(80px, 18vw, 300px);
-            line-height: 0.75;
+            font-size: clamp(80px, 16vw, 280px);
+            line-height: 0.78;
             font-weight: 900;
-            margin-left: -10px; /* Optical alignment */
         }
 
-        .hero p {
-            margin-top: 40px;
-            font-size: 18px;
-            max-width: 600px;
-            letter-spacing: 0;
-            color: var(--dim);
-            text-transform: none;
-        }
-
-        /* Grid - Content only */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -83,35 +77,29 @@
         }
 
         .grid-item {
-            padding: 120px 60px;
+            padding: 100px 60px;
             border-right: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
         }
 
-        .grid-item:last-of-type {
-            border-right: none;
-        }
-
         .grid-item h2 {
-            font-size: 40px;
+            font-size: 42px;
             font-weight: 900;
-            line-height: 0.9;
             margin-bottom: 20px;
+            line-height: 0.9;
         }
 
         .grid-item p {
             font-size: 14px;
-            color: var(--dim);
-            letter-spacing: 0;
             text-transform: none;
-            line-height: 1.5;
+            color: var(--dim);
+            max-width: 280px;
         }
 
-        /* Client Spotlight */
         .featured-client {
             grid-column: span 3;
             padding: 200px 60px;
-            background: #ffffff;
+            background: #FFFFFF;
             color: #000000;
         }
 
@@ -122,84 +110,124 @@
             letter-spacing: -0.06em;
         }
 
-        .featured-client p {
-            font-size: 24px;
-            font-weight: 500;
-            margin-top: 30px;
-            text-transform: none;
-        }
-
-        /* Contact Section */
         .dispatch {
-            padding: 300px 60px;
+            padding: 250px 60px;
         }
 
         .dispatch a {
-            font-size: clamp(30px, 8vw, 120px);
+            font-size: clamp(40px, 8vw, 120px);
             color: var(--text);
             text-decoration: none;
             font-weight: 900;
-            display: inline-block;
             line-height: 0.8;
+            display: inline-block;
         }
 
-        /* Footer */
         footer {
-            padding: 80px 60px;
+            padding: 60px;
             border-top: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 11px;
+            color: var(--dim);
         }
 
-        @media (max-width: 1000px) {
+        @media (max-width: 900px) {
             .grid-container { grid-template-columns: 1fr; }
             .grid-item { border-right: none; }
-            .hero h1 { font-size: 100px; }
         }
     </style>
 </head>
 <body>
+    <div class="grain"></div>
+    <div id="root"></div>
 
-    <nav>
-        <div class="logo">LB MUSIC</div>
-        <a href="mailto:LBmusic@vtxgames.co.uk" class="contact-trigger">CONTACT</a>
-    </nav>
+    <script type="text/babel">
+        const { motion } = FramerMotion;
 
-    <section class="hero">
-        <h1>SOUND<br>STRUCTURE</h1>
-        <p>Independent agency focused on the precision of sound, strategy, and creative direction.</p>
-    </section>
+        function App() {
+            return (
+                <div className="lb-app">
+                    <motion.nav 
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <div className="logo">LB MUSIC</div>
+                        <div style={{fontSize: '11px', fontWeight: '900'}}>EST. 2026</div>
+                    </motion.nav>
 
-    <div class="grid-container">
-        <div class="grid-item">
-            <h2>ARTIST<br>IDENTITY</h2>
-            <p>Defining the core visual and sonic profile for long-term recognition.</p>
-        </div>
-        <div class="grid-item">
-            <h2>RELEASE<br>STRATEGY</h2>
-            <p>Architecting the digital and physical framework for independent releases.</p>
-        </div>
-        <div class="grid-item">
-            <h2>CREATIVE<br>DIRECTION</h2>
-            <p>Full-spectrum oversight of artistic assets and visual language.</p>
-        </div>
+                    <section className="hero">
+                        <motion.h1
+                            initial={{ opacity: 0, x: -50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                        >
+                            SOUND<br/>STRUCTURE
+                        </motion.h1>
+                    </section>
 
-        <section class="featured-client">
-            <h3>LURKZ BEATS</h3>
-            <p>Producer / Artist</p>
-        </section>
-    </div>
+                    <div className="grid-container">
+                        <motion.div className="grid-item" 
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.1 }}
+                        >
+                            <h2>ARTIST<br/>IDENTITY</h2>
+                            <p>Defining the core visual and sonic profile for long-term recognition.</p>
+                        </motion.div>
 
-    <section class="dispatch">
-        <a href="mailto:LBmusic@vtxgames.co.uk">INQUIRIES —<br>LBMUSIC@VTXGAMES.CO.UK</a>
-    </section>
+                        <motion.div className="grid-item"
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.2 }}
+                        >
+                            <h2>RELEASE<br/>STRATEGY</h2>
+                            <p>Architecting the digital and physical framework for independent releases.</p>
+                        </motion.div>
 
-    <footer>
-        <div>LB MUSIC</div>
-        <div>BRICK BY BRICK — 2026</div>
-    </footer>
+                        <motion.div className="grid-item"
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.3 }}
+                        >
+                            <h2>CREATIVE<br/>DIRECTION</h2>
+                            <p>Full-spectrum oversight of artistic assets and visual language.</p>
+                        </motion.div>
 
+                        <motion.section className="featured-client"
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ duration: 1.5 }}
+                            viewport={{ once: true }}
+                        >
+                            <h3>LURKZ BEATS</h3>
+                            <p style={{color: '#000', fontSize: '20px', textTransform: 'none', marginTop: '20px'}}>Producer / Artist</p>
+                        </motion.section>
+                    </div>
+
+                    <section className="dispatch">
+                        <motion.a 
+                            href="mailto:LBmusic@vtxgames.co.uk"
+                            whileHover={{ scale: 1.02, x: 10 }}
+                        >
+                            INQUIRIES —<br/>LBmusic@vtxgames.co.uk
+                        </motion.a>
+                    </section>
+
+                    <footer>
+                        <div>© LB MUSIC</div>
+                        <div>BRICK BY BRICK</div>
+                    </footer>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
